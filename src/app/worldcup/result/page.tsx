@@ -363,7 +363,7 @@ export default function WorldcupResultPage() {
                                 shadow-[0_0_30px_0_rgba(20,117,41,1)]
                                 active:scale-95
                                 transition
-                                mt-10
+                                mt-3
                             "
                         >
                             Share
