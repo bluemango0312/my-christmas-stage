@@ -248,18 +248,21 @@ export default function WorldcupResultPage() {
             <img
                 src={BG}
                 alt="background"
-                className="absolute inset-0 h-full w-full object-cover md:hidden"
+                className="absolute inset-0 h-full w-full object-cover lg:hidden"
                 style={{ zIndex: 0 }}
             />
 
             {/* PC 바깥 여백용 단색 배경 */}
             <div
-                className="absolute inset-0 hidden md:block"
-                style={{ zIndex: 0, backgroundColor: '#5A1620' }}
+                className="absolute inset-0 hidden lg:block"
+                style={{
+                    zIndex: 0,
+                    background: 'linear-gradient(180deg, #3A0F14 0%, #2A0E10 100%)',
+                }}
             />
 
             {/* 모바일 프레임 영역 */}
-            <div className="relative z-10 mx-auto min-h-[100dvh] w-full overflow-hidden md:max-w-[390px] [container-type:inline-size]">
+            <div className="relative z-10 mx-auto min-h-[100dvh] w-full overflow-hidden lg:max-w-[390px] [container-type:inline-size]">
                 <img
                     src={BG}
                     alt="home background"
