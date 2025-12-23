@@ -105,12 +105,23 @@ export default function WorldcupPlayPage() {
     const matchNo = useMemo(() => Math.floor(index / 2) + 1, [index]);
     const totalMatches = useMemo(() => Math.max(1, Math.floor(roundSize / 2)), [roundSize]);
 
+    const [showGuide, setShowGuide] = useState(false);
+
     const roundLabel = useMemo(() => {
         if (isThirdPlaceMatch) return '3·4위전';
         if (isFinalMatch || roundSize === 2) return '결승';
         if (roundSize > 2) return `${roundSize}강`;
         return '결과';
     }, [roundSize, isThirdPlaceMatch, isFinalMatch]);
+
+    useEffect(() => {
+        if (pool.length === 0) return;
+        if (index !== 0) return;
+
+        setShowGuide(true);
+        const t = setTimeout(() => setShowGuide(false), 1800);
+        return () => clearTimeout(t);
+    }, [pool]);
 
     useEffect(() => {
         const run = async () => {
@@ -210,6 +221,36 @@ export default function WorldcupPlayPage() {
 
     return (
         <main className="relative min-h-[100dvh] w-full bg-black">
+            {showGuide && (
+                <div
+                    className="
+            fixed
+            left-1/2
+            top-53
+            -translate-x-1/2
+            -translate-y-1/2
+            z-[999]
+        "
+                >
+                    <div
+                        className="
+                rounded-2xl
+                bg-black/80
+                px-5
+                py-3
+                text-white/90
+                text-[14px]
+                whitespace-nowrap
+                shadow-[0_10px_30px_rgba(0,0,0,0.35)]
+                backdrop-blur
+            "
+                    >
+                        무대는 랜덤으로 제공돼요 🎄
+                    </div>
+                </div>
+            )}
+
+
             <img
                 src={BG}
                 alt="background"
