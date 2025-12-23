@@ -114,15 +114,6 @@ export default function WorldcupPlayPage() {
         return '결과';
     }, [roundSize, isThirdPlaceMatch, isFinalMatch]);
 
-    useEffect(() => {
-        if (pool.length !== INITIAL_SIZE) return; // 32강일 때만
-        if (index !== 0) return;                 // 라운드 첫 매치에서만
-
-        setShowGuide(true);
-        const t = setTimeout(() => setShowGuide(false), 1800);
-        return () => clearTimeout(t);
-    }, [pool, index]);
-
 
     useEffect(() => {
         const run = async () => {
@@ -222,36 +213,6 @@ export default function WorldcupPlayPage() {
 
     return (
         <main className="relative min-h-[100dvh] w-full bg-black">
-            {showGuide && (
-                <div
-                    className="
-            fixed
-            left-1/2
-            top-53
-            -translate-x-1/2
-            -translate-y-1/2
-            z-[999]
-        "
-                >
-                    <div
-                        className="
-                rounded-2xl
-                bg-black/80
-                px-5
-                py-3
-                text-white/90
-                text-[14px]
-                whitespace-nowrap
-                shadow-[0_10px_30px_rgba(0,0,0,0.35)]
-                backdrop-blur
-            "
-                    >
-                        무대는 랜덤으로 제공돼요 🎄
-                    </div>
-                </div>
-            )}
-
-
             <img
                 src={BG}
                 alt="background"
