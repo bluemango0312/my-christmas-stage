@@ -149,7 +149,7 @@ export default function WorldcupResultPage() {
 
     // 너의 "첫 페이지" 경로로 고정
     // 홈이 /worldcup 이면 이대로, 홈이 / 이면 '/worldcup' 빼기
-    const HOME_URL = 'https://my-christmas-stage.vercel.app/worldcup';
+    const HOME_URL = 'https://my-christmas-stage.vercel.app/';
 
     const copyLink = async () => {
         try {
