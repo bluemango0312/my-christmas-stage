@@ -149,8 +149,7 @@ export default function WorldcupResultPage() {
 
     // 너의 "첫 페이지" 경로로 고정
     // 홈이 /worldcup 이면 이대로, 홈이 / 이면 '/worldcup' 빼기
-    const HOME_URL =
-        typeof window === 'undefined' ? '' : `${window.location.origin}/worldcup`;
+    const HOME_URL = 'https://my-christmas-stage.vercel.app/worldcup';
 
     const copyLink = async () => {
         try {
@@ -415,9 +414,23 @@ export default function WorldcupResultPage() {
                                 <button
                                     type="button"
                                     onClick={shareToXWithResult}
-                                    className="mt-3 w-full rounded-2xl bg-black py-3 text-[15px] text-white active:scale-[0.99]"
+                                    className="
+                                    mt-3
+                                    w-full
+                                    rounded-2xl
+                                    bg-black
+                                    py-3
+                                    flex
+                                    items-center
+                                    justify-center
+                                    active:scale-[0.99]
+                                    "
                                 >
-                                    X로 공유하기
+                                    <img
+                                        src="/x-logo.png"
+                                        alt="share as png"
+                                        className="h-6 w-auto select-none"
+                                    />
                                 </button>
 
                                 <button
