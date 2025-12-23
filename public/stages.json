@@ -304,5 +304,53 @@
         "title": "Christmas Day",
         "artist": "EXO",
         "youtubeId": "nTVNROa84BU"
+    },
+    {
+        "id": "riize_hug",
+        "title": "Hug",
+        "artist": "RIIZE",
+        "youtubeId": "NA9RpslcCjs"
+    },
+    {
+        "id": "riize_love_119",
+        "title": "Love 119",
+        "artist": "RIIZE",
+        "youtubeId": "11tYWvrP7ic"
+    },
+    {
+        "id": "christmas_because_collab",
+        "title": "크리스마스니까",
+        "artist": "성시경 X 박효신 X 이석훈 X 서인국 X 빅스",
+        "youtubeId": "JkRKxxLiDNI"
+    },
+    {
+        "id": "smtown_candy_happiness",
+        "title": "Candy + 행복",
+        "artist": "SMTOWN",
+        "youtubeId": "syszGTy0Rsw"
+    },
+    {
+        "id": "plave_bbuu",
+        "title": "BBUU!",
+        "artist": "PLAVE",
+        "youtubeId": "HSO6D4F-ljw"
+    },
+    {
+        "id": "plave_merry_pllistmas",
+        "title": "Merry PLLIstmas",
+        "artist": "PLAVE",
+        "youtubeId": "KCT3ZagR9-M"
+    },
+    {
+        "id": "skz_winter_falls_sorikun",
+        "title": "Winter Falls + 소리꾼",
+        "artist": "Stray Kids",
+        "youtubeId": "_iUDLuLqbuk"
+    },
+    {
+        "id": "nctwish_wishful_winter",
+        "title": "Wishful Winter",
+        "artist": "NCT WISH",
+        "youtubeId": "CJusv9BWHcQ"
     }
 ]

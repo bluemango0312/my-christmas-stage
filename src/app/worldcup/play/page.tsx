@@ -1,12 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useState, useMemo } from 'react';
+import type { Stage } from '../../../lib/worldcup/types';
 import { inter } from '@/lib/fonts';
-import { inglesa } from '@/lib/fonts';
-import { berlin } from '@/lib/fonts';
-import { Cafe24PROUP } from '@/lib/fonts'
+import { inglesa, berlin, Cafe24PROUP } from '@/lib/fonts';
+import { useRouter } from 'next/navigation';
 
 const BG = '/worldcup-bg.png';
+
 
 function VideoCard({
     videoId,
@@ -73,6 +75,67 @@ function VideoCard({
 
 
 export default function worldcupPlayPage() {
+    const router = useRouter();
+
+    // 필요한 상태
+    const [loading, setLoading] = useState(true); // 로딩 중인지
+    const [pool, setPool] = useState<Stage[]>([]); // 현재 라운드에 남아있는 참가자 배열
+    const [index, setIndex] = useState(0); // 현재 매치 위치
+    const [winners, setWinners] = useState<Stage[]>([]); // 이번 라운드 승자 모아두는 배열
+
+    const roundSize = pool.length; //32, 16, 8
+    const matchNo = Math.floor(index / 2) + 1;
+    const totalMatches = Math.max(1, Math.floor(roundSize / 2));
+
+    const left = pool[index];
+    const right = pool[index + 1];
+
+    const roundLabel = useMemo(() => {
+        if (roundSize >= 2) return `${roundSize}강`;
+        return '결승';
+    }, [roundSize]);
+
+    useEffect(() => {
+        const run = async () => {
+            try {
+                const res = await fetch('/stages.json', { cache: 'no-store' });
+                const data = (await res.json()) as Stage[];
+
+                const shuffled = [...data].sort(() => Math.random() - 0.5);
+                setPool(shuffled);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        run();
+    }, []);
+
+    const pick = (winner: Stage) => {
+        setWinners((prev) => [...prev, winner]);
+
+        const nextIndex = index + 2;
+
+        if (nextIndex < pool.length) {
+            setIndex(nextIndex);
+            return;
+        }
+
+        const nextPool = [...winners, winner];
+
+        if (nextPool.length === 1) {
+            sessionStorage.setItem('worldcup_result', JSON.stringify(nextPool[0]));
+            router.push('/worldcup/result');
+            return;
+        }
+
+        setPool(nextPool);
+        setWinners([]);
+        setIndex(0);
+    };
+
+
+
     return (
         <main className="relative min-h-[100dvh] w-full bg-black">
             {/* 바깥 배경(모바일: 이미지, PC: 단색) */}
@@ -125,38 +188,37 @@ export default function worldcupPlayPage() {
                         `}
                         style={{ textShadow: '0px 0px 18px rgba(255,255,255,0.25)', }}
                     >
-                        32강&nbsp;&nbsp;1/16
+                        {loading ? '불러오는 중…' : `${roundLabel}  ${matchNo}/${totalMatches}`}
                     </div>
 
                     {/* Videos */}
                     <div className="mt-7 w-[clamp(240px,90cqw,340px)] flex flex-col gap-6">
-                        <VideoCard
-                            videoId="XyIqFCkrUls"
-                            label="Pick!"
-                            onPick={() => {
-                                // TODO: 선택 로직 (ex: setWinner(0))
-                                console.log('pick top');
-                            }}
-                        />
+                        {!loading && left && right ? (
+                            <>
+                                <VideoCard
+                                    videoId={left.youtubeId}
+                                    onPick={() => {
+                                        pick(left)
+                                    }}
+                                />
+                                <div className={`
+                                    ${berlin.className}
+                                    text-center
+                                    text-white/100
+                                    text-[clamp(22px,5.5cqw,30px)]
+                                    tracking-[0.2em]
+                                    `}>
+                                    VS
+                                </div>
 
-                        <div className={`
-                        ${berlin.className}
-                        text-center
-                        text-white/100
-                        text-[clamp(22px,5.5cqw,30px)]
-                        tracking-[0.2em]
-                        `}>
-                            VS
-                        </div>
-
-                        <VideoCard
-                            videoId="XyIqFCkrUls"
-                            label="Pick!"
-                            onPick={() => {
-                                // TODO: 선택 로직 (ex: setWinner(0))
-                                console.log('pick top');
-                            }}
-                        />
+                                <VideoCard
+                                    videoId={right.youtubeId}
+                                    onPick={() => {
+                                        pick(right)
+                                    }}
+                                />
+                            </>
+                        ) : null}
                     </div>
 
                     <div className="mt-6 text-white/0 select-none">.</div>
