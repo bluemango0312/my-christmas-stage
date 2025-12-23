@@ -3,6 +3,30 @@ import { inter } from '@/lib/fonts';
 import { inglesa } from '@/lib/fonts';
 import { berlin } from '@/lib/fonts';
 
+export const metadata = {
+  title: 'My Christmas Stage 🎄',
+  description: '나만의 크리스마스 스테이지 TopPicks 결과',
+  openGraph: {
+    title: 'My Christmas Stage 🎄',
+    description: '나만의 크리스마스 스테이지 TopPicks 결과',
+    url: 'https://your-domain.com/worldcup',
+    images: [
+      {
+        url: 'https://your-domain.com/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'My Christmas Stage',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'My Christmas Stage 🎄',
+    description: '나만의 크리스마스 스테이지 TopPicks',
+    images: ['https://your-domain.com/og-image.png'],
+  },
+};
+
 type Decor = {
   src: string;
   alt: string;

@@ -145,6 +145,104 @@ export default function WorldcupResultPage() {
         typeof window === 'undefined' ? path : new URL(path, window.location.origin).toString();
     const isDev = process.env.NODE_ENV !== 'production';
 
+    const [isShareOpen, setIsShareOpen] = useState(false);
+
+    // 너의 "첫 페이지" 경로로 고정
+    // 홈이 /worldcup 이면 이대로, 홈이 / 이면 '/worldcup' 빼기
+    const HOME_URL =
+        typeof window === 'undefined' ? '' : `${window.location.origin}/worldcup`;
+
+    const copyLink = async () => {
+        try {
+            await navigator.clipboard.writeText(HOME_URL);
+            alert('링크 복사 완료!');
+        } catch {
+            const ta = document.createElement('textarea');
+            ta.value = HOME_URL;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+            alert('링크 복사 완료!');
+        }
+    };
+
+    const shareToXWithResult = () => {
+        const winner = top3[0];
+
+        const text = winner
+            ? `🎄 My Christmas Stage\n\n🏆 1위\n${winner.title}\n— ${winner.artist}\n\n#크리스마스 #플레이리스트 #MyChristmasStage\n\n✨ 내 크리스마스 무대 취향 테스트 하러 가기`
+            : `🎄 My Christmas Stage\n\n✨ 내 크리스마스 취향 테스트 결과`;
+
+        const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+            text
+        )}&url=${encodeURIComponent(HOME_URL)}`;
+
+        window.open(intent, '_blank', 'noopener,noreferrer');
+    };
+
+
+    const dataUrlToFile = async (dataUrl: string, filename: string) => {
+        const res = await fetch(dataUrl);
+        const blob = await res.blob();
+        return new File([blob], filename, { type: blob.type || 'image/png' });
+    };
+
+    const shareResultImage = async () => {
+        if (top3.length > 0 && icons.length !== top3.length) return;
+
+        setIsCapturing(true);
+        await new Promise<void>((r) => requestAnimationFrame(() => r()));
+        await new Promise<void>((r) => requestAnimationFrame(() => r()));
+
+        const el = captureRef.current;
+        if (!el) {
+            setIsCapturing(false);
+            return;
+        }
+
+        const { default: html2canvas } = await import('html2canvas');
+        await (document as any).fonts?.ready;
+
+        const canvas = await html2canvas(el, {
+            backgroundColor: null,
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            imageTimeout: 0,
+            width: el.scrollWidth,
+            height: el.scrollHeight,
+            windowWidth: el.scrollWidth,
+            windowHeight: el.scrollHeight,
+        });
+
+        const dataUrl = canvas.toDataURL('image/png');
+        const file = await dataUrlToFile(dataUrl, 'my-christmas-stage-top3.png');
+
+        setIsCapturing(false);
+
+
+        if (
+            navigator.share &&
+            navigator.canShare &&
+            navigator.canShare({ files: [file] })
+        ) {
+            try {
+                await navigator.share({
+                    title: 'My Christmas Stage',
+                    text: '내 TopPicks 🎄',
+                    files: [file],
+                });
+                return;
+            } catch {
+                return;
+            }
+        }
+
+        saveAsImage();
+        shareToXWithResult();
+    };
+
     return (
         <main className={`${inter.className} relative min-h-[100dvh] w-full bg-black`}>
             {/* 전체 배경 이미지 */}
@@ -258,6 +356,7 @@ export default function WorldcupResultPage() {
                     >
                         <button
                             type="button"
+                            onClick={() => setIsShareOpen(true)}
                             className="
                                 rounded-3xl
                                 bg-[#C13939]
@@ -277,7 +376,68 @@ export default function WorldcupResultPage() {
                         >
                             Share
                         </button>
+
                     </div>
+                    {isShareOpen && (
+                        <div
+                            className="fixed inset-0 z-[999] flex items-end justify-center bg-black/40"
+                            role="dialog"
+                            aria-modal="true"
+                            onClick={() => setIsShareOpen(false)}
+                        >
+                            <div
+                                className="w-full max-w-[420px] rounded-t-[28px] bg-white px-6 pt-6 pb-10"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <div className="text-[22px] font-semibold text-black/90">
+                                    사이트 공유하기
+                                </div>
+
+                                <div className="mt-4 flex items-center gap-2">
+                                    <input
+                                        value={HOME_URL}
+                                        readOnly
+                                        className="flex-1 rounded-xl bg-black/5 px-4 py-3 text-[15px] text-black/80 outline-none"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={copyLink}
+                                        className="rounded-xl bg-black/10 px-4 py-3 text-[14px] text-black/80 active:scale-[0.99]"
+                                    >
+                                        Copy
+                                    </button>
+                                </div>
+
+                                <div className="mt-8 text-[22px] font-semibold text-black/90">
+                                    결과 공유하기
+                                </div>
+
+                                <button
+                                    type="button"
+                                    onClick={shareToXWithResult}
+                                    className="mt-3 w-full rounded-2xl bg-black py-3 text-[15px] text-white active:scale-[0.99]"
+                                >
+                                    X로 공유하기
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={shareResultImage}
+                                    className="mt-3 w-full rounded-2xl bg-black/10 py-3 text-[15px] text-black/80 active:scale-[0.99]"
+                                >
+                                    결과 이미지 공유하기
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={() => setIsShareOpen(false)}
+                                    className="mt-6 w-full rounded-2xl py-3 text-[14px] text-black/50"
+                                >
+                                    닫기
+                                </button>
+                            </div>
+                        </div>
+                    )}
 
                 </div>
             </div>

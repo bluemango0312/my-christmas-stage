@@ -239,27 +239,27 @@ export default function WorldcupPlayPage() {
                         src="/worldcup-logo.png"
                         alt="Christmas Stage World Cup"
                         className="
-              w-[clamp(200px,83cqw,500px)]
-              select-none
-              pointer-events-none
-              mt-[clamp(10px,5cqw,40px)]
-            "
+                        w-[clamp(200px,83cqw,500px)]
+                        select-none
+                        pointer-events-none
+                        mt-[clamp(10px,5cqw,40px)]
+                        "
                     />
 
                     <div
                         className={`
-              ${Cafe24PROUP.className}
-              mt-6
-              text-white/90
-              text-[clamp(14px,5cqw,25px)]
-              tracking-wide
-            `}
+                        ${Cafe24PROUP.className}
+                        mt-2
+                        text-white/90
+                        text-[clamp(14px,5cqw,25px)]
+                        tracking-wide
+                        `}
                         style={{ textShadow: '0px 0px 18px rgba(255,255,255,0.25)' }}
                     >
                         {loading ? '불러오는 중…' : `${roundLabel}  ${matchNo}/${totalMatches}`}
                     </div>
 
-                    <div className="mt-7 w-[clamp(240px,90cqw,340px)] flex flex-col gap-5">
+                    <div className="mt-10 w-[clamp(240px,90cqw,340px)] flex flex-col gap-5">
                         {!loading && left && right ? (
                             <>
                                 <VideoCard
