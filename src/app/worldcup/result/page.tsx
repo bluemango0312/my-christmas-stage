@@ -262,13 +262,7 @@ export default function WorldcupResultPage() {
             />
 
             {/* 모바일 프레임 영역 */}
-            <div className="
-                relative z-10 mx-auto
-                h-[100dvh] w-full
-                overflow-x-hidden overflow-y-auto
-                lg:max-w-[390px] [container-type:inline-size]
-                ">
-
+            <div className="relative z-10 mx-auto min-h-[100dvh] w-full lg:max-w-[390px] [container-type:inline-size]">
                 <img
                     src={BG}
                     alt="home background"
