@@ -262,7 +262,13 @@ export default function WorldcupResultPage() {
             />
 
             {/* 모바일 프레임 영역 */}
-            <div className="relative z-10 mx-auto min-h-[100dvh] w-full overflow-hidden lg:max-w-[390px] [container-type:inline-size]">
+            <div className="
+                relative z-10 mx-auto
+                h-[100dvh] w-full
+                overflow-x-hidden overflow-y-auto
+                lg:max-w-[390px] [container-type:inline-size]
+                ">
+
                 <img
                     src={BG}
                     alt="home background"
@@ -345,20 +351,8 @@ export default function WorldcupResultPage() {
                         Save as Image
                     </button>
 
-                    {/* 공유 버튼 */}
-                    <div
-                        className="
-                            fixed
-                            bottom-[clamp(24px,6vh,72px)]
-                            left-1/2
-                            -translate-x-1/2
-                            w-[clamp(240px,70cqw,320px)]
-                            z-50
-                        "
-                        style={{
-                            bottom: 'calc(env(safe-area-inset-bottom, 0px) + 20px)',
-                        }}
-                    >
+                    {/* 공유 버튼 (사진 저장 아래) */}
+                    <div className="mt-6 w-full flex justify-center">
                         <button
                             type="button"
                             onClick={() => setIsShareOpen(true)}
@@ -366,23 +360,22 @@ export default function WorldcupResultPage() {
                                 rounded-3xl
                                 bg-[#C13939]
                                 border-2
-                                block
-                                mx-auto
                                 border-[#147529]
-                                px-6 py-1
+                                px-8
+                                py-2
                                 text-white
-                                font-normal tracking-wide
-                                text-[clamp(10px,5.5cqw,40px)]
+                                tracking-wide
+                                text-[15px]
                                 shadow-[0_0_30px_0_rgba(20,117,41,1)]
                                 active:scale-95
                                 transition
-                                mb-[clamp(32px,6.8vh,72px)]
-                                "
+                                mt-10
+                            "
                         >
                             Share
                         </button>
-
                     </div>
+
                     {isShareOpen && (
                         <div
                             className="fixed inset-0 z-[999] flex items-end justify-center bg-black/40"
