@@ -15,15 +15,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  manifest: '/manifest.webmanifest',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'black-translucent',
-    title: 'My Christmas Stage',
+  title: '🎄 My Christmas Stage',
+  description: '내 크리스마스 무대 취향 테스트 🎶',
+  openGraph: {
+    title: '🎄 My Christmas Stage',
+    description: '크리스마스 무대 취향 테스트 결과를 확인해보세요!',
+    url: 'https://my-christmas-stage.vercel.app/',
+    siteName: 'My Christmas Stage',
+    images: [
+      {
+        url: 'https://my-christmas-stage.vercel.app/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'My Christmas Stage',
+      },
+    ],
+    locale: 'ko_KR',
+    type: 'website',
   },
-  themeColor: '#000000',
 };
-
 
 export default function RootLayout({
   children,
